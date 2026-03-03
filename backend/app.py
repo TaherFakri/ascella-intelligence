@@ -14,7 +14,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
 app.secret_key = "alpha_secret_2026" 
 # Update this line in app.py
-CORS(app, supports_credentials=True, origins=["http://127.0.0.1:5500", "http://localhost:5500", "http://localhost:3000"])
+from flask_cors import CORS
+
+# Replace with your actual GitHub Pages URL
+CORS(app, resources={r"/*": {"origins": "https://taherfakhri.github.io"}}, supports_credentials=True)
 # --- DATABASE SETUP ---
 def init_db():
     conn = sqlite3.connect('market.db')
