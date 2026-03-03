@@ -10,16 +10,17 @@ from datetime import timedelta
 import certifi
 os.environ['SSL_CERT_FILE'] = certifi.where()
 from werkzeug.security import generate_password_hash, check_password_hash
-
+from werkzeug.middleware.proxy_fix import ProxyFix
 app = Flask(__name__)
+app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
+
 app.config.update(
+    SECRET_KEY="alpha_secret_2026",
     SESSION_COOKIE_SECURE=True,
-    SESSION_COOKIE_SAMESITE='None',
+    SESSION_COOKIE_SAMESITE="None",
     SESSION_COOKIE_HTTPONLY=True
 )
-app.secret_key = "alpha_secret_2026" 
-# Update this line in app.py
-from flask_cors import CORS
+
 
 # Replace with your actual GitHub Pages URL
 # In backend/app.py
@@ -168,7 +169,6 @@ def overview():
     conn.close()
     return jsonify([{"symbol":r[0],"price":r[1],"pred":r[2],"status":r[3],"desc":r[4],"cat":r[5]} for r in data])
 
-@app.route("/portfolio", methods=["GET", "POST"])
 
 @app.route("/portfolio", methods=["GET", "POST"])
 def manage_portfolio():
