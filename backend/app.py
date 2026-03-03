@@ -12,6 +12,11 @@ os.environ['SSL_CERT_FILE'] = certifi.where()
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
+app.config.update(
+    SESSION_COOKIE_SECURE=True,
+    SESSION_COOKIE_SAMESITE='None',
+    SESSION_COOKIE_HTTPONLY=True
+)
 app.secret_key = "alpha_secret_2026" 
 # Update this line in app.py
 from flask_cors import CORS
