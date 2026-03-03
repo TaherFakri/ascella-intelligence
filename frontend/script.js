@@ -1,4 +1,4 @@
-const API = "http://127.0.0.1:5050";
+const API = "https://ascella-intelligence.onrender.com";
 let isLogin = true;
 let currentStockData = null; 
 let myChart = null;
