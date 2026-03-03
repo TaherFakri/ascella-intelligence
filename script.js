@@ -8,13 +8,23 @@ let myChart = null;
  */
 function initApp() {
     console.log("Ascella Intelligence System Online...");
-    // Reset UI State
-    document.getElementById('auth-overlay').style.display = 'flex';
-    document.getElementById('main-nav').style.display = 'none';
-    document.getElementById('section-market').style.display = 'none';
-    document.getElementById('section-portfolio').style.display = 'none';
-    
-    applyReveal(); // Initialize scroll effects
+
+    const token = localStorage.getItem("token");
+
+    if (token) {
+        // User already authenticated
+        document.getElementById('auth-overlay').style.display = 'none';
+        document.getElementById('main-nav').style.display = 'flex';
+        switchTab('market');
+    } else {
+        // Not authenticated
+        document.getElementById('auth-overlay').style.display = 'flex';
+        document.getElementById('main-nav').style.display = 'none';
+        document.getElementById('section-market').style.display = 'none';
+        document.getElementById('section-portfolio').style.display = 'none';
+    }
+
+    applyReveal();
 }
 
 /**
@@ -81,13 +91,18 @@ async function handleAuth() {
         const res = await fetch(`${API}${path}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            credentials: 'include',
             body: JSON.stringify({username, password})
         });
 
         const data = await res.json();
         if (res.ok) {
             if (isLogin) {
+                if (!data.token) {
+            alert("Authentication failed.");
+            return;
+        }
+                localStorage.setItem("token", data.token);
+
                 document.getElementById('auth-overlay').style.display = 'none';
                 document.getElementById('main-nav').style.display = 'flex';
                 switchTab('market');
@@ -227,7 +242,21 @@ function updateView(mode) {
  */
 async function loadPortfolio() {
     try {
-        const res = await fetch(`${API}/portfolio`, { credentials: 'include' });
+        const res = await fetch(`${API}/portfolio`, {
+    headers: {
+        'Authorization': `Bearer ${localStorage.getItem("token")}`
+    }
+});
+if (res.status === 401) {
+    localStorage.removeItem("token");
+    alert("Session expired. Please login again.");
+    location.reload();
+    return;
+}
+
+if (!res.ok) {
+    throw new Error("Failed to load portfolio");
+}
         const data = await res.json();
         
         let totalInvested = 0;
@@ -286,10 +315,12 @@ async function addToPortfolio() {
     
     if(!symbol || !quantity || !buy_price) return alert("Fill all fields");
 
-    await fetch(`${API}/portfolio`, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        credentials: 'include',
+   await fetch(`${API}/portfolio`, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem("token")}`
+    },
         body: JSON.stringify({symbol, quantity, buy_price}) // Sending quantity to backend
     });
     
@@ -312,9 +343,11 @@ async function deleteStock(symbol) {
 
     try {
         const res = await fetch(`${API}/portfolio/${symbol}`, {
-            method: 'DELETE',
-            credentials: 'include'
-        });
+    method: 'DELETE',
+    headers: {
+        'Authorization': `Bearer ${localStorage.getItem("token")}`
+    }
+});
 
         if (res.ok) {
             // Smoothly remove from UI

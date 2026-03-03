@@ -5,21 +5,17 @@ import numpy as np
 from sklearn.linear_model import LinearRegression
 import sqlite3
 import os
-import datetime
-from datetime import timedelta
 import certifi
 os.environ['SSL_CERT_FILE'] = certifi.where()
 from werkzeug.security import generate_password_hash, check_password_hash
-from werkzeug.middleware.proxy_fix import ProxyFix
+import jwt
+from functools import wraps
+from datetime import datetime, timedelta
 app = Flask(__name__)
-app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
-app.config.update(
-    SECRET_KEY="alpha_secret_2026",
-    SESSION_COOKIE_SECURE=True,
-    SESSION_COOKIE_SAMESITE="None",
-    SESSION_COOKIE_HTTPONLY=True
-)
+app.config['JWT_SECRET'] = "super_jwt_secret_2026"
+app.config['JWT_EXPIRATION_HOURS'] = 24
+
 
 
 # Replace with your actual GitHub Pages URL
@@ -30,8 +26,7 @@ CORS(
         "origins": [
             "https://taherfakri.github.io"
         ]
-    }},
-    supports_credentials=True
+    }}
 )
 # --- DATABASE SETUP ---
 def init_db():
@@ -106,6 +101,36 @@ def scan_market():
 init_db()
 scan_market()
 
+def token_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth_header = request.headers.get("Authorization")
+
+        if not auth_header:
+            return jsonify({"error": "Token missing"}), 401
+
+        parts = auth_header.split()
+        if len(parts) != 2 or parts[0] != "Bearer":
+            return jsonify({"error": "Invalid token format"}), 401
+
+        token = parts[1]
+
+        try:
+            data = jwt.decode(
+                token,
+                app.config['JWT_SECRET'],
+                algorithms=["HS256"]
+            )
+            current_user = data['username']
+        except jwt.ExpiredSignatureError:
+            return jsonify({"error": "Token expired"}), 401
+        except jwt.InvalidTokenError:
+            return jsonify({"error": "Invalid token"}), 401
+
+        return f(current_user, *args, **kwargs)
+
+    return decorated
+
 @app.route("/signup", methods=["POST"])
 def signup():
     data = request.json
@@ -122,12 +147,32 @@ def signup():
 def login():
     data = request.json
     conn = sqlite3.connect('market.db')
-    user = conn.execute("SELECT * FROM users WHERE username=?", (data['username'],)).fetchone()
-    if user and check_password_hash(user[2], data['password']):
-        session['user'] = user[1]
-        return jsonify({"username": user[1]}), 200
-    return jsonify({"error": "Failed"}), 401
+    user = conn.execute(
+        "SELECT * FROM users WHERE username=?",
+        (data['username'],)
+    ).fetchone()
+    conn.close()
 
+    if user and check_password_hash(user[2], data['password']):
+        payload = {
+            "username": user[1],
+            "exp": datetime.utcnow() + timedelta(
+                hours=app.config['JWT_EXPIRATION_HOURS']
+            )
+        }
+
+        token = jwt.encode(
+            payload,
+            app.config['JWT_SECRET'],
+            algorithm="HS256"
+        )
+
+        return jsonify({
+            "username": user[1],
+            "token": token
+        }), 200
+
+    return jsonify({"error": "Failed"}), 401
 
 @app.route("/analyze", methods=["POST"])
 def analyze():
@@ -171,11 +216,8 @@ def overview():
 
 
 @app.route("/portfolio", methods=["GET", "POST"])
-def manage_portfolio():
-    user = session.get('user')
-    if not user:
-        return jsonify({"error": "Unauthorized"}), 401
-
+@token_required
+def manage_portfolio(user):
     conn = sqlite3.connect('market.db')
 
     # ---- ADD STOCK ----
@@ -241,11 +283,8 @@ def manage_portfolio():
 
 
 @app.route('/portfolio/<symbol>', methods=['DELETE'])
-def delete_position(symbol):
-    user = session.get('user')
-    if not user:
-        return jsonify({"error": "Unauthorized"}), 401
-
+@token_required
+def delete_position(user, symbol):
     conn = sqlite3.connect('market.db')
     conn.execute(
         "DELETE FROM portfolio WHERE username=? AND symbol=?",
