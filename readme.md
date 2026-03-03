@@ -1,183 +1,144 @@
-# 🚀 Ascella Intelligence
+# 🌌 ASCELLA INTELLIGENCE
 
-> AI-Driven Market Analysis & Portfolio Intelligence Platform
-> Built with Flask • JWT • Render • GitHub Pages • Chart.js
-
----
+### Autonomous Market Signal Engine
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Backend-Flask-black?style=for-the-badge&logo=flask">
-  <img src="https://img.shields.io/badge/Auth-JWT-blue?style=for-the-badge&logo=jsonwebtokens">
-  <img src="https://img.shields.io/badge/Frontend-VanillaJS-yellow?style=for-the-badge&logo=javascript">
-  <img src="https://img.shields.io/badge/Charts-Chart.js-orange?style=for-the-badge&logo=chartdotjs">
-  <img src="https://img.shields.io/badge/Deployment-Render-purple?style=for-the-badge">
+  <img src="https://img.shields.io/badge/System-Operational-00ffcc?style=for-the-badge">
+  <img src="https://img.shields.io/badge/AI-Regression%20Model-9d50bb?style=for-the-badge">
+  <img src="https://img.shields.io/badge/Auth-JWT%20Secured-0066ff?style=for-the-badge">
+  <img src="https://img.shields.io/badge/Deployment-Render-black?style=for-the-badge">
 </p>
 
 ---
 
-## 🌌 Overview
+> *Precision-driven market intelligence powered by algorithmic forecasting.*
 
-Ascella Intelligence is a full-stack AI-powered investment platform that:
+Ascella Intelligence is a full-stack AI-powered investment analysis platform engineered for:
 
-* 📊 Scans market data using `yfinance`
-* 🤖 Generates regression-based price forecasts
-* 📈 Visualizes predictions interactively
-* 💼 Tracks user portfolios
-* 🔐 Secures endpoints using JWT authentication
+* Real-time market evaluation
+* Predictive modeling
+* Portfolio performance intelligence
+* Secure stateless authentication
 
-Designed with a modern, stateless authentication architecture for cross-domain deployment compatibility.
+Built for cross-domain scalability. Designed for modern web architecture.
 
 ---
 
-# 🧠 System Architecture
+# 🧠 SYSTEM ARCHITECTURE
 
 ```mermaid
 flowchart LR
-    A[Frontend<br>GitHub Pages] -->|REST API| B[Flask Backend<br>Render]
-    B --> C[(SQLite Database)]
-    B --> D[yFinance API]
-    B --> E[Linear Regression Model]
+    A[Client Interface<br>GitHub Pages] -->|Secure REST| B[Ascella Core API<br>Render]
+    B --> C[(SQLite Storage)]
+    B --> D[yFinance Data Stream]
+    B --> E[Regression Engine]
 ```
 
 ---
 
-# 🔐 Authentication Flow (JWT-Based)
+# 🔐 AUTHENTICATION PROTOCOL
+
+Ascella uses **stateless JWT authentication**.
+
+No cookies.
+No session storage.
+No browser compatibility issues.
 
 ```mermaid
 sequenceDiagram
-    participant U as User
-    participant F as Frontend
-    participant B as Backend
+    participant User
+    participant Frontend
+    participant API
 
-    U->>F: Login Credentials
-    F->>B: POST /login
-    B-->>F: JWT Token
-    F->>F: Store Token (localStorage)
-    F->>B: Request /portfolio<br>Authorization: Bearer TOKEN
-    B-->>F: Protected Data
+    User->>Frontend: Credentials
+    Frontend->>API: POST /login
+    API-->>Frontend: JWT Token
+    Frontend->>API: Authorization: Bearer TOKEN
+    API-->>Frontend: Protected Data
 ```
-
-### Why JWT?
-
-* No cookies
-* No SameSite issues
-* Safari compatible
-* Stateless backend
-* Production-grade authentication
 
 ---
 
-# 📊 AI Market Analysis Engine
+# 📡 LIVE SYSTEM
 
-Ascella uses:
+### 🌍 Interface
 
-* `yfinance` for historical market data
-* `scikit-learn` Linear Regression
-* Short-term & long-term predictive models
+https://taherfakri.github.io/ascella-intelligence/
 
-### Forecast Logic
+### ⚙ Core API
+
+https://ascella-intelligence.onrender.com
+
+> All protected endpoints require valid JWT authorization.
+
+---
+
+# 📊 MARKET SIGNAL ENGINE
+
+Ascella performs:
+
+1. 1-Year historical data acquisition
+2. Regression model fitting
+3. Short-term and long-term projection
+4. AI-driven BUY / HOLD / SELL evaluation
 
 ```mermaid
 flowchart TD
-    A[Fetch 1Y Historical Data]
-    B[Extract Closing Prices]
-    C[Fit Linear Regression]
-    D[Predict Future Values]
-    E[Return Structured JSON]
+    A[Fetch Historical Data]
+    B[Transform Price Series]
+    C[Train Linear Model]
+    D[Generate Forecast]
+    E[Return Structured Signal]
 
     A --> B --> C --> D --> E
 ```
 
 ---
 
-# 💼 Portfolio Intelligence
+# 💼 PORTFOLIO INTELLIGENCE
 
-Features:
+For each position:
 
-* Add positions
-* Update quantities
-* Auto-calculate:
+* Live market valuation
+* Unrealized P/L calculation
+* Target price estimation
+* AI exit guidance
 
-  * Total investment
-  * Market value
-  * Profit/Loss
-* AI-driven SELL / HOLD guidance
+System output:
+
+```
+SYMBOL | QUANTITY | CURRENT | TARGET | GUIDANCE
+```
 
 ---
 
-# 🛠 Tech Stack
+# ⚙ TECHNOLOGY STACK
 
-### Backend
+**Core Engine**
 
 * Flask
 * PyJWT
-* SQLite
-* Gunicorn
 * scikit-learn
 * yfinance
+* SQLite
 
-### Frontend
+**Interface**
 
-* Vanilla JavaScript
+* Vanilla JS
 * Chart.js
-* CSS animations
-* Intersection Observer API
+* Intersection Observer animations
 
-### Deployment
+**Infrastructure**
 
-* Render (API)
-* GitHub Pages (Frontend)
-
----
-
-# ⚙️ Installation (Local Development)
-
-## 1️⃣ Clone Repository
-
-```bash
-git clone https://github.com/YOUR_USERNAME/ascella-intelligence.git
-cd ascella-intelligence/backend
-```
+* Render (API hosting)
+* GitHub Pages (Frontend delivery)
+* Gunicorn (WSGI)
 
 ---
 
-## 2️⃣ Create Virtual Environment
+# 🛰 DEPLOYMENT CONFIGURATION
 
-```bash
-python -m venv venv
-source venv/bin/activate  # Mac/Linux
-venv\Scripts\activate     # Windows
-```
-
----
-
-## 3️⃣ Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
----
-
-## 4️⃣ Run Server
-
-```bash
-python app.py
-```
-
-Server runs on:
-
-```
-http://localhost:5050
-```
-
----
-
-# 🚀 Deployment
-
-### Backend (Render)
-
-Start command:
+Backend start command:
 
 ```
 gunicorn app:app
@@ -191,23 +152,7 @@ backend
 
 ---
 
-### Frontend (GitHub Pages)
-
-Hosted from:
-
-```
-/docs or root branch
-```
-
-API endpoint:
-
-```js
-const API = "https://ascella-intelligence.onrender.com";
-```
-
----
-
-# 📁 Project Structure
+# 🧩 PROJECT STRUCTURE
 
 ```
 ascella-intelligence/
@@ -224,46 +169,38 @@ ascella-intelligence/
 
 ---
 
-# 🔒 Security Model
+# 🔒 SECURITY MODEL
 
-* JWT-based stateless authentication
-* 24-hour token expiration
-* Authorization header validation
-* No third-party cookie reliance
-* Cross-origin compatible
+* JWT-based stateless verification
+* Header-based authorization
+* Token expiration (24h)
+* Cross-origin compatible architecture
 
----
+Built to avoid:
 
-# 📈 Future Improvements
-
-* Refresh token rotation
-* Role-based authorization
-* Redis caching layer
-* PostgreSQL migration
-* WebSocket live price updates
-* Advanced ML forecasting (LSTM)
+* Third-party cookie issues
+* Safari ITP conflicts
+* Session persistence complexity
 
 ---
 
-# 🌠 Live Demo
+# 🌠 FUTURE EVOLUTION
 
-🔗 https://taherfakri.github.io/ascella-intelligence/
+* Deep Learning forecasting (LSTM / Transformers)
+* Real-time WebSocket streaming
+* Portfolio risk scoring
+* Multi-user scaling (PostgreSQL migration)
+* Cloud-native microservice architecture
 
 ---
 
-# 🧑‍💻 Author
+# 🧑‍🚀 AUTHOR
 
 **Taher Fakhri**
-Full-Stack Developer • AI Systems Builder
-
----
-
-# ⭐ If You Found This Interesting
-
-Give the repository a star and follow for future AI-fintech builds.
+AI Systems Engineer • Full-Stack Developer
 
 ---
 
 <p align="center">
-Built with precision. Engineered for scale. Designed for clarity.
+  <em>Engineered for signal clarity. Built for autonomous precision.</em>
 </p>
