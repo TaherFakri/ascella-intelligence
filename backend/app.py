@@ -18,14 +18,15 @@ from flask_cors import CORS
 
 # Replace with your actual GitHub Pages URL
 # In backend/app.py
-CORS(app, 
-     resources={r"/*": {
-         "origins": [
-             "https://taherfakhri.github.io",
-             "https://taherfakhri.github.io/ascella-intelligence"
-         ]
-     }}, 
-     supports_credentials=True)
+CORS(
+    app,
+    resources={r"/*": {
+        "origins": [
+            "https://taherfakri.github.io"
+        ]
+    }},
+    supports_credentials=True
+)
 # --- DATABASE SETUP ---
 def init_db():
     conn = sqlite3.connect('market.db')
