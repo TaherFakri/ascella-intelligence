@@ -1,0 +1,322 @@
+/* --- Global Variables --- */
+:root {
+    --glass: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.12);
+    --neon-blue: #00d2ff;
+    --neon-purple: #9d50bb;
+    --deep-bg: #020617;
+}
+
+/* --- Multi-Layered Futuristic Background --- */
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--deep-bg);
+    /* Layered gradients for depth */
+    background-image: 
+        radial-gradient(circle at 80% 20%, rgba(157, 80, 187, 0.15), transparent),
+        radial-gradient(circle at 20% 80%, rgba(0, 210, 255, 0.1), transparent);
+    background-attachment: fixed;
+    color: #f1f5f9;
+    min-height: 100vh;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: radial-gradient(1px 1px at 10% 20%, white, transparent),
+                radial-gradient(1px 1px at 30% 50%, white, transparent),
+                radial-gradient(2px 2px at 70% 80%, white, transparent);
+    background-size: 200px 200px;
+    opacity: 0.2;
+    animation: stars-drift 100s infinite linear;
+    z-index: -3;
+}
+
+@keyframes stars-drift {
+    from { background-position: 0 0; }
+    to { background-position: 1000px 1000px; }
+}
+/* --- Fixed High-Visibility Buttons --- */
+button {
+    padding: 14px 24px;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    border: none;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    /* Neon Gradient Background */
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+    color: white !important;
+    box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
+    display: inline-block;
+    min-width: 140px;
+}
+
+button:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 0 25px rgba(0, 210, 255, 0.5);
+    filter: brightness(1.1);
+}
+
+/* Small Buttons (Toggle) */
+.toggle-container button {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+    min-width: 100px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+}
+
+.toggle-container button.active {
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+    border: none;
+}
+
+/* --- Glassmorphism Cards --- */
+ .stock-card, .column {
+    background: var(--glass) !important;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 24px;
+    padding: 25px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    margin-bottom: 20px;
+}
+.card {
+    background: var(--glass);
+    backdrop-filter: blur(15px);
+    border: 1px solid transparent; /* Required for the mask */
+    background-clip: padding-box, border-box;
+    background-origin: padding-box, border-box;
+    background-image: 
+        linear-gradient(to right, #0f172a, #0f172a), 
+        linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+    border-radius: 24px;
+}
+/* --- Input Field --- */
+input {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid var(--glass-border);
+    padding: 16px;
+    font-size: 1rem;
+    color: white;
+    border-radius: 12px;
+    outline: none;
+    width: calc(100% - 32px);
+    transition: 0.3s;
+}
+
+input:focus {
+    border-color: var(--neon-blue);
+    background: rgba(15, 23, 42, 0.9);
+}
+
+/* Chart fix */
+.chart-container {
+    height: 450px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+/* --- Ascella Watermark Fix --- */
+.ascella-watermark {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-12deg);
+    z-index: -1; /* Behind cards, above background */
+    pointer-events: none;
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0.12; /* Increased for better visibility */
+}
+
+.ascella-watermark svg {
+    width: 320px;
+    height: 320px;
+    margin-bottom: -20px;
+    /* Removed blur for sharpness */
+    filter: drop-shadow(0 0 15px rgba(0, 210, 255, 0.3));
+}
+
+.watermark-text {
+    font-size: 9vw;
+    font-weight: 900;
+    color: white;
+    letter-spacing: 25px;
+    text-transform: uppercase;
+    /* "Glass" Transparency Effect */
+    opacity: 0.6;
+    mask-image: linear-gradient(to bottom, white, transparent);
+    animation: stellar-shimmer 6s infinite linear;
+}
+
+/* --- Futuristic Effects --- */
+
+/* Energy Shimmer Effect */
+@keyframes stellar-shimmer {
+    0% { opacity: 0.4; filter: brightness(1); }
+    50% { opacity: 0.8; filter: brightness(1.5); }
+    100% { opacity: 0.4; filter: brightness(1); }
+}
+
+/* Floating Animation */
+.ascella-watermark {
+    animation: float-slow 12s infinite ease-in-out;
+}
+
+@keyframes float-slow {
+    0%, 100% { transform: translate(-50%, -50%) rotate(-12deg); }
+    50% { transform: translate(-50%, -55%) rotate(-10deg); }
+}
+/* --- Premium Brand Header --- */
+.hero-header {
+    text-align: center;
+    padding: 40px 0 20px 0;
+}
+
+.brand-name {
+    font-size: 3.5rem;
+    font-weight: 900;
+    letter-spacing: 8px;
+    margin: 0;
+    /* Neon Gradient Text */
+    background: linear-gradient(to right, #ffffff, var(--neon-blue), var(--neon-purple));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 15px rgba(0, 210, 255, 0.3));
+}
+
+.ai-tag {
+    font-size: 1rem;
+    vertical-align: middle;
+    background: var(--neon-blue);
+    -webkit-text-fill-color: white;
+    padding: 4px 12px;
+    border-radius: 6px;
+    letter-spacing: 2px;
+    margin-left: 10px;
+    box-shadow: 0 0 20px rgba(0, 210, 255, 0.5);
+}
+
+/* --- System Status Bar --- */
+.status-bar {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    padding: 5px 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+}
+
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    background: #00ff88;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #00ff88;
+    animation: blink 1.5s infinite;
+}
+
+.status-text {
+    font-size: 0.7rem;
+    font-family: 'Courier New', monospace;
+    color: #94a3b8;
+    letter-spacing: 2px;
+}
+
+.hero-subtitle {
+    margin-top: 15px;
+    color: #64748b;
+    font-size: 1.1rem;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+/* Portfolio Summary */
+.summary-card {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.summary-item .label {
+    display: block;
+    font-size: 0.8rem;
+    color: #94a3b8;
+    text-transform: uppercase;
+}
+
+.summary-item .value {
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+/* Profit/Loss Styling */
+.profit { color: #00ff88 !important; }
+.loss { color: #ff4d4d !important; }
+
+.pl-tag {
+    margin: 10px 0;
+    padding: 5px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.icon-btn {
+    background: rgba(0, 210, 255, 0.2);
+    border: 1px solid var(--neon-blue);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.7rem;
+}
+
+.icon-btn:hover { background: var(--neon-blue); }
+
+.card-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.delete-btn {
+    background: rgba(255, 61, 61, 0.1) !important;
+    border: 1px solid #ff3d3d !important;
+    color: #ff3d3d !important;
+}
+
+.delete-btn:hover {
+    background: #ff3d3d !important;
+    color: white !important;
+    box-shadow: 0 0 15px rgba(255, 61, 61, 0.4);
+}
+
+/* Animation for removal */
+.stock-card {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASCELLA | Neural Market Intelligence</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+   
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+     <link rel="stylesheet" href="style.css">
+</head>
+<body onload="initApp()">
+<div class="ascella-watermark">
+    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 20 L115 85 L180 100 L115 115 L100 180 L85 115 L20 100 L85 85 Z" fill="url(#grad)" />
+        <path d="M30 160 Q 100 160 170 40" stroke="white" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.5" />
+        <defs>
+            <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#00d2ff;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#9d50bb;stop-opacity:1" />
+            </linearGradient>
+        </defs>
+    </svg>
+    <div class="watermark-text">ASCELLA</div>
+</div>
+
+<header class="hero-header">
+    <div class="brand-container">
+        <h1 class="brand-name">ASCELLA <span class="ai-tag">INTEL</span></h1>
+        <div class="status-bar">
+            <span class="pulse-dot"></span>
+            <span class="status-text">NEURAL ENGINE ACTIVE</span>
+        </div>
+    </div>
+    <p class="hero-subtitle">Advanced predictive modeling for the modern investor</p>
+</header>
+
+    <div id="auth-overlay" class="overlay">
+        <div class="auth-card">
+            <h2 id="auth-title">AI Alpha Login</h2>
+            <div class="glass-input-wrapper">
+                <input id="user" placeholder="Username">
+                <input id="pass" type="password" placeholder="Password">
+                <button onclick="handleAuth()">Access System</button>
+            </div>
+            <p id="toggle-link" onclick="toggleAuth()" class="toggle-text">Establish New Account</p>
+        </div>
+    </div>
+
+    <nav id="main-nav" style="display:none;">
+        <div class="nav-container">
+            <button id="nav-market" class="active" onclick="switchTab('market')">Market Intelligence</button>
+            <button id="nav-portfolio" onclick="switchTab('portfolio')">Strategic Portfolio</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section id="section-market" style="display:none;">
+            <header class="hero-header">
+                <h1>AI Market Dashboard</h1>
+                <p>Advanced predictive modeling for the modern investor</p>
+            </header>
+
+            <div class="card analysis-card">
+                <div class="input-container">
+                    <input id="symbol" placeholder="Search Asset Symbol (e.g. NVDA)">
+                    <button class="primary-btn" onclick="analyzeStock()">Execute Analysis</button>
+                </div>
+                
+                <div class="toggle-container">
+                    <button id="btn-short" class="active" onclick="updateView('short')">Short Term (5D)</button>
+                    <button id="btn-long" onclick="updateView('long')">Long Term (1Y)</button>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="mainChart"></canvas>
+                </div>
+            </div>
+
+            <div class="market-split">
+                <div class="column">
+                    <h2>🔥 High Volatility (Short-Term)</h2>
+                    <div id="short-term-list" class="grid-mini"></div>
+                </div>
+                <div class="column">
+                    <h2>📈 Growth Leaders (Long-Term)</h2>
+                    <div id="long-term-list" class="grid-mini"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-portfolio" style="display:none;">
+<header class="hero-header">
+    <h1>Asset Tracking</h1>
+    <p>Monitor your performance against AI benchmarks</p>
+</header>
+
+<div class="card summary-card">
+    <div class="summary-item">
+        <span class="label">Total Invested</span>
+        <span id="total-invested" class="value">$0.00</span>
+    </div>
+    <div class="summary-item">
+        <span class="label">Net Profit/Loss</span>
+        <span id="net-pl" class="value">$0.00</span>
+    </div>
+</div>
+
+<div class="card">
+    <div class="input-container">
+        <input id="port-symbol" placeholder="Symbol (e.g. BTC)">
+        <input id="port-qty" type="number" placeholder="Quantity">
+        <input id="port-buy" type="number" placeholder="Entry Price">
+        <button class="primary-btn" onclick="addToPortfolio()">Log Position</button>
+    </div>
+</div>
+<div id="portfolio-list" class="grid"></div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
