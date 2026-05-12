@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, session
+from flask import Flask, request, jsonify, send_from_directory, session
 from flask_cors import CORS
 import yfinance as yf
 import numpy as np
@@ -11,7 +11,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
 from functools import wraps
 from datetime import datetime, timedelta
-app = Flask(__name__)
+
+app = Flask(__name__, static_folder='../frontend/dist', static_url_path='/')
+
+from prediction_service import predict_future_prices, generate_insights
 
 app.config['JWT_SECRET'] = "super_jwt_secret_2026"
 app.config['JWT_EXPIRATION_HOURS'] = 24
@@ -24,6 +27,8 @@ CORS(
     app,
     resources={r"/*": {
         "origins": [
+            "http://localhost:5173",
+            "http://localhost:3000",
             "https://taherfakri.github.io"
         ]
     }}
@@ -81,20 +86,26 @@ def scan_market():
         for symbol in tickers:
             try:
                 stock = yf.Ticker(symbol)
-                hist = stock.history(period="1mo")
+                hist = stock.history(period="6mo")
                 if hist.empty: continue
-                prices = hist["Close"].values.reshape(-1, 1)
-                days = np.arange(len(prices)).reshape(-1, 1)
-                model = LinearRegression().fit(days, prices)
-                cur_p = float(prices[-1][0])
-                pred_p = float(model.predict([[len(prices) + 5]])[0][0])
+                prices = hist["Close"].tolist()
+                
+                days_ahead = 5 if category == "Short-Term" else 180
+                preds = predict_future_prices(prices, days_ahead)
+                cur_p = prices[-1]
+                pred_p = preds[-1]
+                
                 profit_pct = ((pred_p - cur_p) / cur_p) * 100
-                status = "Strong Buy" if (pred_p > cur_p * 1.05) else "Buy" if (pred_p > cur_p) else "Hold"
+                insights = generate_insights(hist)
+                
+                status = insights['sentiment']
                 hold_time = "5-10 Days" if category == "Short-Term" else "6-12 Months"
-                desc = f"AI Target: ${round(pred_p, 2)}. Hold: {hold_time}. Return: {round(profit_pct, 1)}%"
+                desc = f"AI Target: ${round(pred_p, 2)}. Risk: {insights['volatility']}. Confidence: {insights['confidence']}/100"
                 c.execute("INSERT OR REPLACE INTO stocks VALUES (?, ?, ?, ?, ?, ?)", 
                           (symbol, round(cur_p, 2), round(pred_p, 2), status, desc, category))
-            except: continue
+            except Exception as e:
+                print(f"Error scanning {symbol}: {e}")
+                continue
     conn.commit()
     conn.close()
 
@@ -182,28 +193,24 @@ def analyze():
         hist_1y = stock.history(period="1y")
         if hist_1y.empty: return jsonify({"error": "No data"}), 400
 
-        # Helper function for regression
-        def get_pred(prices_list, days_ahead):
-            y = np.array(prices_list).reshape(-1, 1)
-            x = np.arange(len(y)).reshape(-1, 1)
-            model = LinearRegression().fit(x, y)
-            future_idx = np.arange(len(y), len(y) + days_ahead).reshape(-1, 1)
-            return model.predict(future_idx).flatten().tolist()
-
         # 1. Monthly View (Last 30 days) + 5 Day Prediction
         short_hist = hist_1y['Close'].tail(30).tolist()
         short_dates = hist_1y.index[-30:].strftime('%Y-%m-%d').tolist()
-        short_pred = get_pred(short_hist, 5)
+        short_pred = predict_future_prices(short_hist, 5)
         
         # 2. Yearly View + 1 Year Prediction
         long_hist = hist_1y['Close'].tolist()
         long_dates = hist_1y.index.strftime('%Y-%m-%d').tolist()
-        long_pred = get_pred(long_hist, 252)
+        long_pred = predict_future_prices(long_hist, 252)
+        
+        # 3. AI Insights
+        insights = generate_insights(hist_1y)
 
         return jsonify({
             "symbol": symbol,
             "short": {"history": short_hist, "dates": short_dates, "prediction": short_pred},
-            "long": {"history": long_hist, "dates": long_dates, "prediction": long_pred}
+            "long": {"history": long_hist, "dates": long_dates, "prediction": long_pred},
+            "insights": insights
         })
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -295,7 +302,17 @@ def delete_position(user, symbol):
 
     return jsonify({"message": "Deleted successfully"}), 200
 
+# Catch-all route to serve the React SPA
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve(path):
+    if path != "" and os.path.exists(app.static_folder + '/' + path):
+        return send_from_directory(app.static_folder, path)
+    else:
+        if os.path.exists(app.static_folder + '/index.html'):
+            return send_from_directory(app.static_folder, 'index.html')
+        return "Frontend build not found.", 404
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5050))
-    app.run(host='0.0.0.0', port=port)
-    
+    app.run(host='0.0.0.0', port=port, debug=True)

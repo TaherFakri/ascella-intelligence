@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 # 🌌 ASCELLA INTELLIGENCE
 
 ### Autonomous Market Signal Engine
@@ -204,3 +205,62 @@ AI Systems Engineer • Full-Stack Developer
 <p align="center">
   <em>Engineered for signal clarity. Built for autonomous precision.</em>
 </p>
+=======
+# Ascella AI - Neural Market Intelligence
+
+Ascella AI is a fully refactored, enterprise-grade stock prediction platform. It offers an advanced predictive engine, strategic portfolio tracking, and a sleek modern dashboard built on cutting-edge technologies.
+
+## ✨ Features
+
+- **Advanced Market Intelligence:** Short-term and long-term asset price predictions using heuristic constraints and ML linear regression.
+- **AI Sentiment & Confidence Insights:** Technical indicators (RSI, MACD, Moving Averages) synthesized into a confidence score and market sentiment.
+- **Dark Futuristic 3D UI:** Built with React, Tailwind CSS, Framer Motion, and shadcn/ui to mimic a premium SaaS trading terminal.
+- **Strategic Portfolio Tracking:** Track user positions against dynamic AI benchmarks in real time.
+- **Fully Localized Development:** Simple execution to run backend and frontend natively with concurrent proxies.
+
+## 🛠️ Technology Stack
+
+**Frontend:**
+- React 18 & Vite
+- Tailwind CSS (v3) + postcss
+- Framer Motion (for smooth 3D/glassmorphism animations)
+- Recharts (for dynamic prediction and history charts)
+- Zustand (Global State Management)
+
+**Backend:**
+- Python 3 / Flask
+- SQLite (Local database)
+- yfinance (Live market data fetch)
+- scikit-learn, numpy, pandas (Data Science / ML logic)
+
+## 🚀 How to Run Locally
+
+We have set up an automated concurrent script to spin up both the Vite development server and the Flask backend simultaneously.
+
+### Prerequisites
+1. Node.js (v18 or higher)
+2. Python 3 (with standard virtual environment)
+
+### Startup Sequence
+
+1. Clone or open the repository.
+2. Install root dependencies:
+   ```bash
+   npm install
+   ```
+3. Boot the application:
+   ```bash
+   npm run dev
+   ```
+
+> This will start the React server at `http://localhost:5173` and the Flask backend at `http://localhost:5000`.
+
+### Individual Scripts
+- `npm run client` - Starts only the React frontend.
+- `npm run server` - Starts only the Python Flask backend.
+
+## 📁 Architecture Overhaul
+
+- **`/frontend`**: Replaces the old vanilla HTML/JS setup. Contains a full Single Page Application structure with proper `react-router-dom` routing.
+- **`/backend/prediction_service.py`**: A dedicated ML service separating data processing from API routes to enhance scalability. Includes volatility dampening, clamping against unrealistic negative prices, and robust sentiment generation logic.
+>>>>>>> Stashed changes

@@ -1,3 +1,8 @@
 echo "backend/venv/" >> .gitignore
 echo "__pycache__/" >> .gitignore
-echo ".DS_Store" >> .gitignore
+echo ".DS_Store" >> .gitignorenode_modules/
+backend/venv/
+frontend/node_modules/
+frontend/dist/
+backend/market.db
+backend/__pycache__/
