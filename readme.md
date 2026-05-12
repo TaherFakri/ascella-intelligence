@@ -1,266 +1,122 @@
-<<<<<<< Updated upstream
-# 🌌 ASCELLA INTELLIGENCE
-
-### Autonomous Market Signal Engine
-
-<p align="center">
-  <img src="https://img.shields.io/badge/System-Operational-00ffcc?style=for-the-badge">
-  <img src="https://img.shields.io/badge/AI-Regression%20Model-9d50bb?style=for-the-badge">
-  <img src="https://img.shields.io/badge/Auth-JWT%20Secured-0066ff?style=for-the-badge">
-  <img src="https://img.shields.io/badge/Deployment-Render-black?style=for-the-badge">
-</p>
-
----
-
-> *Precision-driven market intelligence powered by algorithmic forecasting.*
-
-Ascella Intelligence is a full-stack AI-powered investment analysis platform engineered for:
-
-* Real-time market evaluation
-* Predictive modeling
-* Portfolio performance intelligence
-* Secure stateless authentication
-
-Built for cross-domain scalability. Designed for modern web architecture.
-
----
-
-# 🧠 SYSTEM ARCHITECTURE
-
-```mermaid
-flowchart LR
-    A[Client Interface<br>GitHub Pages] -->|Secure REST| B[Ascella Core API<br>Render]
-    B --> C[(SQLite Storage)]
-    B --> D[yFinance Data Stream]
-    B --> E[Regression Engine]
-```
-
----
-
-# 🔐 AUTHENTICATION PROTOCOL
-
-Ascella uses **stateless JWT authentication**.
-
-No cookies.
-No session storage.
-No browser compatibility issues.
-
-```mermaid
-sequenceDiagram
-    participant User
-    participant Frontend
-    participant API
-
-    User->>Frontend: Credentials
-    Frontend->>API: POST /login
-    API-->>Frontend: JWT Token
-    Frontend->>API: Authorization: Bearer TOKEN
-    API-->>Frontend: Protected Data
-```
-
----
-
-# 📡 LIVE SYSTEM
-
-### 🌍 Interface
-
-https://taherfakri.github.io/ascella-intelligence/
-
-### ⚙ Core API
-
-https://ascella-intelligence.onrender.com
-
-> All protected endpoints require valid JWT authorization.
-
----
-
-# 📊 MARKET SIGNAL ENGINE
-
-Ascella performs:
-
-1. 1-Year historical data acquisition
-2. Regression model fitting
-3. Short-term and long-term projection
-4. AI-driven BUY / HOLD / SELL evaluation
-
-```mermaid
-flowchart TD
-    A[Fetch Historical Data]
-    B[Transform Price Series]
-    C[Train Linear Model]
-    D[Generate Forecast]
-    E[Return Structured Signal]
-
-    A --> B --> C --> D --> E
-```
-
----
-
-# 💼 PORTFOLIO INTELLIGENCE
-
-For each position:
-
-* Live market valuation
-* Unrealized P/L calculation
-* Target price estimation
-* AI exit guidance
-
-System output:
-
-```
-SYMBOL | QUANTITY | CURRENT | TARGET | GUIDANCE
-```
-
----
-
-# ⚙ TECHNOLOGY STACK
-
-**Core Engine**
-
-* Flask
-* PyJWT
-* scikit-learn
-* yfinance
-* SQLite
-
-**Interface**
-
-* Vanilla JS
-* Chart.js
-* Intersection Observer animations
-
-**Infrastructure**
-
-* Render (API hosting)
-* GitHub Pages (Frontend delivery)
-* Gunicorn (WSGI)
-
----
-
-# 🛰 DEPLOYMENT CONFIGURATION
-
-Backend start command:
-
-```
-gunicorn app:app
-```
-
-Root directory:
-
-```
-backend
-```
-
----
-
-# 🧩 PROJECT STRUCTURE
-
-```
-ascella-intelligence/
-│
-├── backend/
-│   ├── app.py
-│   ├── requirements.txt
-│   └── market.db
-│
-├── index.html
-├── script.js
-└── styles.css
-```
-
----
-
-# 🔒 SECURITY MODEL
-
-* JWT-based stateless verification
-* Header-based authorization
-* Token expiration (24h)
-* Cross-origin compatible architecture
-
-Built to avoid:
-
-* Third-party cookie issues
-* Safari ITP conflicts
-* Session persistence complexity
-
----
-
-# 🌠 FUTURE EVOLUTION
-
-* Deep Learning forecasting (LSTM / Transformers)
-* Real-time WebSocket streaming
-* Portfolio risk scoring
-* Multi-user scaling (PostgreSQL migration)
-* Cloud-native microservice architecture
-
----
-
-# 🧑‍🚀 AUTHOR
-
-**Taher Fakhri**
-AI Systems Engineer • Full-Stack Developer
-
----
-
-<p align="center">
-  <em>Engineered for signal clarity. Built for autonomous precision.</em>
-</p>
-=======
-# Ascella AI - Neural Market Intelligence
-
-Ascella AI is a fully refactored, enterprise-grade stock prediction platform. It offers an advanced predictive engine, strategic portfolio tracking, and a sleek modern dashboard built on cutting-edge technologies.
+<div align="center">
+  <img src="./frontend/public/logo.png" alt="Ascella AI Logo" width="120" />
+  <h1>🚀 Ascella AI | Neural Market Intelligence</h1>
+  <p><strong>A Next-Generation AI-Powered Stock Prediction & Portfolio Management Platform</strong></p>
+
+  [![React](https://img.shields.io/badge/React-18-blue?style=for-the-badge&logo=react)](https://reactjs.org/)
+  [![Vite](https://img.shields.io/badge/Vite-5-646CFF?style=for-the-badge&logo=vite)](https://vitejs.dev/)
+  [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
+  [![Flask](https://img.shields.io/badge/Flask-3.0-white?style=for-the-badge&logo=flask&logoColor=black)](https://flask.palletsprojects.com/)
+  [![Python](https://img.shields.io/badge/Python-3.9+-yellow?style=for-the-badge&logo=python)](https://www.python.org/)
+  [![scikit-learn](https://img.shields.io/badge/scikit--learn-1.4-orange?style=for-the-badge&logo=scikit-learn)](https://scikit-learn.org/)
+</div>
+
+<br />
 
 ## ✨ Features
 
-- **Advanced Market Intelligence:** Short-term and long-term asset price predictions using heuristic constraints and ML linear regression.
-- **AI Sentiment & Confidence Insights:** Technical indicators (RSI, MACD, Moving Averages) synthesized into a confidence score and market sentiment.
-- **Dark Futuristic 3D UI:** Built with React, Tailwind CSS, Framer Motion, and shadcn/ui to mimic a premium SaaS trading terminal.
-- **Strategic Portfolio Tracking:** Track user positions against dynamic AI benchmarks in real time.
-- **Fully Localized Development:** Simple execution to run backend and frontend natively with concurrent proxies.
+- 🧠 **Advanced AI Prediction Engine**: Leverages `scikit-learn` linear regression mixed with complex heuristic clamping (using volatility, moving averages) to prevent unrealistic negative prices.
+- 📊 **Real-Time Sentiment Analysis**: Analyzes **RSI**, **MACD**, and **MAs** to generate accurate "Confidence Scores" and market sentiment ratings (e.g., *Strong Bullish*).
+- 🌌 **Premium 3D UI/UX**: Built with Framer Motion and Tailwind CSS. Features glassmorphism panels, interactive 3D cards, and a dynamic animated trading-grid background.
+- 📈 **Dynamic Charting**: Uses `recharts` to render stunning SVG gradient area charts with dashed prediction vectors.
+- 💼 **Strategic Portfolio**: Track your personal holdings against the AI's target prices in real-time.
 
-## 🛠️ Technology Stack
+---
 
-**Frontend:**
-- React 18 & Vite
-- Tailwind CSS (v3) + postcss
-- Framer Motion (for smooth 3D/glassmorphism animations)
-- Recharts (for dynamic prediction and history charts)
-- Zustand (Global State Management)
+## 🏛️ Architecture Overview
 
-**Backend:**
-- Python 3 / Flask
-- SQLite (Local database)
-- yfinance (Live market data fetch)
-- scikit-learn, numpy, pandas (Data Science / ML logic)
+Ascella AI utilizes a decoupled architecture in development, which is automatically compiled into a unified monolith for production deployment (e.g., Render.com).
 
-## 🚀 How to Run Locally
+```mermaid
+graph TD
+    subgraph Frontend [React + Vite SPA]
+        UI[Glassmorphism UI] --> Store[Zustand State]
+        Store --> API_Calls[Fetch API]
+    end
 
-We have set up an automated concurrent script to spin up both the Vite development server and the Flask backend simultaneously.
+    subgraph Backend [Flask AI Server]
+        API_Calls --> Routes[app.py API Routes]
+        Routes --> Predict[prediction_service.py]
+        Predict --> Models[Scikit-Learn ML]
+        Predict --> Data[yfinance Live Data]
+        Routes --> DB[(SQLite User DB)]
+    end
 
-### Prerequisites
-1. Node.js (v18 or higher)
-2. Python 3 (with standard virtual environment)
+    subgraph Production [Render Deployment]
+        Static[dist/ folder] --> FlaskStatic[Flask Static Serving]
+        FlaskStatic --> ClientBrowser
+    end
+```
 
-### Startup Sequence
+---
 
-1. Clone or open the repository.
-2. Install root dependencies:
+## 📂 Repository Structure
+
+```text
+ascella-intelligence/
+├── frontend/                 # React UI Codebase
+│   ├── src/
+│   │   ├── components/       # Reusable UI (Navbar, Cards, etc.)
+│   │   ├── pages/            # Dashboard, Portfolio, Login Views
+│   │   ├── store/            # Zustand Global State
+│   │   ├── index.css         # 3D Transforms & Global Styles
+│   │   └── App.tsx           # Router & Animated Backgrounds
+│   ├── package.json
+│   └── vite.config.ts        # Vite Bundler Settings
+├── backend/                  # Python API Codebase
+│   ├── app.py                # Main Flask Application & Router
+│   ├── prediction_service.py # AI Engine & Technical Indicators
+│   ├── market.db             # Local SQLite Database
+│   └── requirements.txt      # Python Dependencies
+├── render-build.sh           # Production CI/CD Build Script
+└── package.json              # Root concurrent scripts
+```
+
+---
+
+## 🚀 Local Development Setup
+
+We have configured `concurrently` to launch both the React and Flask servers simultaneously with a single command.
+
+### 1️⃣ Prerequisites
+- Node.js (v18+)
+- Python 3.9+ (with a virtual environment recommended)
+
+### 2️⃣ Installation
+Clone the repository and install root dependencies:
+```bash
+git clone https://github.com/TaherFakri/ascella-intelligence.git
+cd ascella-intelligence
+npm install
+```
+
+### 3️⃣ Boot the Platform
+Run the concurrent startup script:
+```bash
+npm run dev
+```
+- **Frontend** runs at: `http://localhost:5173`
+- **Backend API** runs at: `http://localhost:5050`
+
+---
+
+## 🌍 Production Deployment (Render.com)
+
+Ascella AI is configured for a **unified Web Service deployment** on Render to eliminate CORS issues and reduce hosting costs.
+
+1. Create a new **Web Service** on Render linked to this repository.
+2. Set the **Build Command** to:
    ```bash
-   npm install
+   ./render-build.sh
    ```
-3. Boot the application:
+3. Set the **Start Command** to:
    ```bash
-   npm run dev
+   cd backend && gunicorn app:app
    ```
+4. Render will automatically build the Vite static files, place them in `frontend/dist`, and configure Flask to serve them directly to clients!
 
-> This will start the React server at `http://localhost:5173` and the Flask backend at `http://localhost:5000`.
+---
 
-### Individual Scripts
-- `npm run client` - Starts only the React frontend.
-- `npm run server` - Starts only the Python Flask backend.
-
-## 📁 Architecture Overhaul
-
-- **`/frontend`**: Replaces the old vanilla HTML/JS setup. Contains a full Single Page Application structure with proper `react-router-dom` routing.
-- **`/backend/prediction_service.py`**: A dedicated ML service separating data processing from API routes to enhance scalability. Includes volatility dampening, clamping against unrealistic negative prices, and robust sentiment generation logic.
->>>>>>> Stashed changes
+<div align="center">
+  <i>"Predicting the future of markets with neural precision."</i>
+</div>
