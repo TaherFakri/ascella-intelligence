@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useStore } from '../store/useStore';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card';
-import { Briefcase, Plus, Trash2, TrendingUp, TrendingDown, DollarSign } from 'lucide-react';
+import { Briefcase, Plus, Trash2, DollarSign } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const API_URL = import.meta.env.PROD ? "" : "http://localhost:5050";
