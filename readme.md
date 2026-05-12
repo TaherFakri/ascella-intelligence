@@ -3,6 +3,9 @@
   <h1>🚀 Ascella AI | Neural Market Intelligence</h1>
   <p><strong>A Next-Generation AI-Powered Stock Prediction & Portfolio Management Platform</strong></p>
 
+  <h3>🔗 <a href="https://ascella-intelligence.onrender.com">Live Demo: View on Render</a></h3>
+  <br />
+
   [![React](https://img.shields.io/badge/React-18-blue?style=for-the-badge&logo=react)](https://reactjs.org/)
   [![Vite](https://img.shields.io/badge/Vite-5-646CFF?style=for-the-badge&logo=vite)](https://vitejs.dev/)
   [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
